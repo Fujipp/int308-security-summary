@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@theme {
+  --color-base-900: #06080f;
+  --color-base-800: #070b14;
+  --color-base-700: #0b1220;
+  --color-panel: #111a2b;
+  --color-card: #172238;
+  --color-line: #2a3958;
+  --color-text-main: #eaf1ff;
+  --color-text-muted: #a8b9db;
+  --color-accent: #7dd3fc;
+  --color-accent2: #a78bfa;
+  --font-sans: "Noto Sans Thai", "Segoe UI", system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: theme('fontFamily.sans');
+  background:
+    radial-gradient(circle at top left, rgba(125,211,252,0.18), transparent 24%),
+    radial-gradient(circle at top right, rgba(167,139,250,0.16), transparent 22%),
+    linear-gradient(180deg, #0b1220, #070b14 70%, #06080f);
+  background-attachment: fixed;
+}

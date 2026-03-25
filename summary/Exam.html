@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>INT308 Exam Summary</title>
+  <style>
+    :root {
+      --bg: #0b1220;
+      --panel: #111a2b;
+      --card: #172238;
+      --line: #2a3958;
+      --text: #eaf1ff;
+      --muted: #a8b9db;
+      --accent: #7dd3fc;
+      --accent2: #a78bfa;
+      --maxw: 1050px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(125,211,252,0.18), transparent 24%),
+        radial-gradient(circle at top right, rgba(167,139,250,0.16), transparent 22%),
+        linear-gradient(180deg, #0b1220, #070b14 70%, #06080f);
+      font-family: "Noto Sans Thai", "Segoe UI", system-ui, sans-serif;
+      line-height: 1.7;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    .wrap { width: min(calc(100% - 28px), var(--maxw)); margin: 0 auto; }
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(12px);
+      background: rgba(11,18,32,0.9);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .topbar-in {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      padding: 10px 0;
+    }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 9px 13px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 160ms ease;
+    }
+    .btn:hover, .btn.active {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
+    .hero { padding: 26px 0 12px; }
+    .hero-box {
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(125,211,252,0.09), rgba(167,139,250,0.08));
+      box-shadow: 0 14px 36px rgba(0,0,0,0.22);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(125,211,252,0.12);
+      border: 1px solid rgba(125,211,252,0.22);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    h1, h2, h3 { margin: 0 0 10px; line-height: 1.2; }
+    h1 { font-size: clamp(1.9rem, 3.4vw, 3rem); margin-top: 12px; }
+    h2 { font-size: 1.14rem; }
+    h3 { font-size: 0.98rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .sub { margin: 0; color: var(--muted); max-width: 80ch; }
+    .visuals {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin: 16px 0 4px;
+    }
+    .visual {
+      padding: 14px;
+    }
+    .visual svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .visual figcaption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .diagram-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin: 16px 0 4px;
+    }
+    .diagram {
+      padding: 14px;
+    }
+    .diagram pre {
+      margin: 0;
+      overflow: auto;
+      background: rgba(8, 12, 22, 0.75);
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      padding: 12px;
+    }
+    .diagram .caption {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    details {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
+    summary {
+      cursor: pointer;
+      list-style: none;
+      padding: 14px 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    summary::-webkit-details-marker { display: none; }
+    details[open] summary {
+      border-bottom: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+    }
+    .detail-body {
+      padding: 14px 16px 16px;
+      color: var(--text);
+    }
+    .mini-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      margin-top: 14px;
+    }
+    .pill {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+      background: rgba(255,255,255,0.03);
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 18px;
+      padding: 18px 0 40px;
+    }
+    .sidebar {
+      position: sticky;
+      top: 74px;
+      align-self: start;
+    }
+    .card {
+      background: rgba(23,34,56,0.9);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+      backdrop-filter: blur(8px);
+    }
+    .toc { padding: 16px; }
+    .toc a {
+      display: block;
+      padding: 8px 10px;
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .toc a:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .main { display: grid; gap: 14px; }
+    .section { padding: 18px; }
+    .section p { margin: 0 0 10px; }
+    .section ul { margin: 0; padding-left: 18px; }
+    .section li { margin-bottom: 7px; }
+    .note {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .lang-en { display: none; }
+    body[data-lang="en"] .lang-th { display: none; }
+    body[data-lang="en"] .lang-en { display: block; }
+    .footer {
+      padding: 0 0 28px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+    }
+  </style>
+</head>
+<body data-lang="th">
+  <div class="topbar">
+    <div class="wrap topbar-in">
+      <div class="controls">
+        <button class="btn active" data-lang-btn="th">ไทย</button>
+        <button class="btn" data-lang-btn="en">English</button>
+      </div>
+      <div class="controls">
+        <a class="btn" href="./Exam.md">Markdown</a>
+        <a class="btn" href="./Exam.pdf">PDF</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="wrap hero" id="top">
+    <div class="hero-box">
+      <div class="badge">INT308 · Summary from 10 PDFs</div>
+      <div class="lang lang-th">
+        <h1>สรุปอ่านง่ายจาก PDF ทั้ง 10 ไฟล์</h1>
+        <p class="sub">หน้าเดียวสำหรับทบทวนก่อนสอบ แยกเป็น 10 บทตามไฟล์ต้นฉบับ พร้อมคำอธิบายสั้น ๆ และปุ่มสลับภาษาไทย/อังกฤษ</p>
+      </div>
+      <div class="lang lang-en">
+        <h1>Easy-to-read summary from all 10 PDF files</h1>
+        <p class="sub">A one-page review sheet organized into 10 chapters based on the original files, with short explanations and Thai/English switching.</p>
+      </div>
+    </div>
+  </header>
+
+  <section class="wrap visuals">
+    <figure class="card visual">
+      <svg viewBox="0 0 360 220" role="img" aria-label="CIA triad diagram">
+        <defs>
+          <linearGradient id="g1" x1="0" x2="1">
+            <stop offset="0%" stop-color="#7dd3fc" />
+            <stop offset="100%" stop-color="#a78bfa" />
+          </linearGradient>
+        </defs>
+        <circle cx="120" cy="70" r="48" fill="rgba(125,211,252,0.18)" stroke="url(#g1)" stroke-width="2" />
+        <circle cx="240" cy="70" r="48" fill="rgba(167,139,250,0.18)" stroke="url(#g1)" stroke-width="2" />
+        <circle cx="180" cy="145" r="48" fill="rgba(125,211,252,0.12)" stroke="url(#g1)" stroke-width="2" />
+        <text x="120" y="76" fill="#eaf1ff" font-size="18" text-anchor="middle">Confidentiality</text>
+        <text x="240" y="76" fill="#eaf1ff" font-size="18" text-anchor="middle">Integrity</text>
+        <text x="180" y="151" fill="#eaf1ff" font-size="18" text-anchor="middle">Availability</text>
+      </svg>
+      <figcaption>
+        <span class="lang lang-th">CIA คือแกนหลักของความมั่นคงปลอดภัย</span>
+        <span class="lang lang-en">CIA is the core of security.</span>
+      </figcaption>
+    </figure>
+
+    <figure class="card visual">
+      <svg viewBox="0 0 360 220" role="img" aria-label="Encryption and signature comparison">
+        <rect x="18" y="34" width="120" height="46" rx="12" fill="rgba(125,211,252,0.18)" stroke="#7dd3fc" />
+        <rect x="18" y="140" width="120" height="46" rx="12" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" />
+        <rect x="220" y="34" width="120" height="46" rx="12" fill="rgba(125,211,252,0.18)" stroke="#7dd3fc" />
+        <rect x="220" y="140" width="120" height="46" rx="12" fill="rgba(167,139,250,0.18)" stroke="#a78bfa" />
+        <line x1="138" y1="57" x2="214" y2="57" stroke="#eaf1ff" stroke-width="2" marker-end="url(#arrow)" />
+        <line x1="138" y1="163" x2="214" y2="163" stroke="#eaf1ff" stroke-width="2" marker-end="url(#arrow)" />
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L6,3 z" fill="#eaf1ff" />
+          </marker>
+        </defs>
+        <text x="78" y="61" fill="#eaf1ff" font-size="18" text-anchor="middle">Encrypt</text>
+        <text x="78" y="167" fill="#eaf1ff" font-size="18" text-anchor="middle">Sign</text>
+        <text x="280" y="61" fill="#eaf1ff" font-size="18" text-anchor="middle">Decrypt</text>
+        <text x="280" y="167" fill="#eaf1ff" font-size="18" text-anchor="middle">Verify</text>
+      </svg>
+      <figcaption>
+        <span class="lang lang-th">จำง่าย: encryption = ความลับ, signature = ยืนยันตัวตนและปฏิเสธไม่ได้</span>
+        <span class="lang lang-en">Encryption gives secrecy; signatures give authentication and non-repudiation.</span>
+      </figcaption>
+    </figure>
+
+    <figure class="card visual">
+      <svg viewBox="0 0 360 220" role="img" aria-label="HA and DR comparison">
+        <rect x="28" y="48" width="120" height="124" rx="16" fill="rgba(125,211,252,0.14)" stroke="#7dd3fc" />
+        <rect x="212" y="48" width="120" height="124" rx="16" fill="rgba(167,139,250,0.14)" stroke="#a78bfa" />
+        <text x="88" y="83" fill="#eaf1ff" font-size="22" text-anchor="middle">HA</text>
+        <text x="88" y="112" fill="#a8b9db" font-size="15" text-anchor="middle">Minimize downtime</text>
+        <text x="88" y="138" fill="#a8b9db" font-size="15" text-anchor="middle">Keep service running</text>
+        <text x="272" y="83" fill="#eaf1ff" font-size="22" text-anchor="middle">DR</text>
+        <text x="272" y="112" fill="#a8b9db" font-size="15" text-anchor="middle">Recover after disaster</text>
+        <text x="272" y="138" fill="#a8b9db" font-size="15" text-anchor="middle">Restore data and service</text>
+      </svg>
+      <figcaption>
+        <span class="lang lang-th">HA กันล้ม, DR กู้กลับหลังล้ม</span>
+        <span class="lang lang-en">HA prevents downtime; DR restores after failure.</span>
+      </figcaption>
+    </figure>
+  </section>
+
+  <section class="wrap diagram-grid">
+    <article class="card diagram">
+      <pre class="mermaid">
+flowchart LR
+  P[Plaintext] --> E[Encrypt]
+  E --> C[Ciphertext]
+  C --> D[Decrypt]
+  D --> P2[Plaintext]
+      </pre>
+      <div class="caption lang lang-th">ภาพจำ: encryption ซ่อนข้อมูล แล้ว decryption ดึงกลับมา</div>
+      <div class="caption lang lang-en">Memory aid: encryption hides data, decryption restores it.</div>
+    </article>
+
+    <article class="card diagram">
+      <pre class="mermaid">
+flowchart LR
+  A[Client] --> AS[AS]
+  AS --> TGT[TGT]
+  TGT --> TGS[TGS]
+  TGS --> ST[Service Ticket]
+  ST --> S[Service]
+      </pre>
+      <div class="caption lang lang-th">Kerberos ใช้ ticket หลายชั้น ลดการส่งรหัสผ่านตรง ๆ</div>
+      <div class="caption lang lang-en">Kerberos uses layered tickets to avoid sending passwords repeatedly.</div>
+    </article>
+
+    <article class="card diagram">
+      <pre class="mermaid">
+flowchart LR
+  HA[HA] --> H1[Prevent downtime]
+  DR[DR] --> D1[Recover after disaster]
+  H1 --- R1[Same site / cluster]
+  D1 --- R2[Separate site / replication]
+      </pre>
+      <div class="caption lang lang-th">HA กันล่ม DR กู้กลับ ต่างกันที่เป้าหมายและระยะเวลา</div>
+      <div class="caption lang lang-en">HA prevents outages; DR restores service after a major incident.</div>
+    </article>
+  </section>
+
+  <section class="wrap" style="padding-bottom: 14px;">
+    <details open class="card">
+      <summary>
+        <span class="lang lang-th">วิธีอ่านสรุปนี้ให้เข้าใจเร็ว</span>
+        <span class="lang lang-en">How to use this summary quickly</span>
+      </summary>
+      <div class="detail-body">
+        <div class="lang lang-th">
+          <span class="pill">1 อ่านหัวข้อ</span>
+          <span class="pill">2 ดูรูป</span>
+          <span class="pill">3 จำคำสั้น</span>
+          <span class="pill">4 เปิด Exam.md ถ้าต้องการลึก</span>
+          <p>ให้เริ่มจากภาพรวมก่อน แล้วค่อยไล่บทที่ชอบออกสอบ เช่น AES, RSA, Kerberos, X.509, SQL Injection, HA/DR</p>
+        </div>
+        <div class="lang lang-en">
+          <span class="pill">1 Read the topic</span>
+          <span class="pill">2 Study the diagram</span>
+          <span class="pill">3 Memorize the short phrase</span>
+          <span class="pill">4 Open Exam.md for details</span>
+          <p>Start with the big picture, then review the most testable chapters such as AES, RSA, Kerberos, X.509, SQL injection, and HA/DR.</p>
+        </div>
+      </div>
+    </details>
+  </section>
+
+  <main class="wrap layout">
+    <aside class="sidebar">
+      <nav class="card toc">
+        <h3>Contents</h3>
+        <a href="#1-introduction">1. Introduction</a>
+        <a href="#2-cryptography">2. Cryptography</a>
+        <a href="#3-block-ciphers">3. Block Ciphers</a>
+        <a href="#4-aes">4. AES</a>
+        <a href="#5-csc">5. CSC</a>
+        <a href="#6-rsa">6. RSA</a>
+        <a href="#7-key-management">7. Key Management</a>
+        <a href="#8-authentication">8. Authentication</a>
+        <a href="#9-data-center">9. Data Center</a>
+        <a href="#10-database-cloud">10. Database & Cloud Security</a>
+        <a href="#exam-tips">Quick Tips</a>
+      </nav>
+    </aside>
+
+    <section class="main">
+      <article class="card section" id="exam-focus">
+        <div class="lang lang-th">
+          <h2>แนวข้อสอบที่น่าจะเจอ</h2>
+          <ul>
+            <li>อธิบายความต่างของ <b>encryption</b>, <b>hash</b>, <b>MAC</b>, และ <b>digital signature</b></li>
+            <li>เปรียบเทียบ <b>symmetry</b> กับ <b>public-key</b> และบอกว่าแต่ละแบบเหมาะกับงานอะไร</li>
+            <li>อธิบาย why <b>ECB</b> ไม่เหมาะ, <b>CBC</b> ต้องมี IV, และ <b>CTR</b> เร็วเพราะอะไร</li>
+            <li>อธิบาย <b>AES</b> flow, key size, และเหตุผลที่แทน DES/3DES</li>
+            <li>อธิบาย <b>RSA</b> ใช้ทำอะไร และทำไมถึงช้ากว่า symmetric</li>
+            <li>อธิบาย <b>Kerberos</b>, <b>X.509</b>, และ <b>PKI</b> ต่างกันอย่างไร</li>
+            <li>อธิบาย <b>SQL Injection</b> และวิธีป้องกันที่ดีที่สุด</li>
+            <li>อธิบาย <b>HA</b>, <b>DR</b>, <b>RTO</b>, และ <b>RPO</b> พร้อมตัวอย่าง</li>
+          </ul>
+        </div>
+        <div class="lang lang-en">
+          <h2>Likely Exam Questions</h2>
+          <ul>
+            <li>Explain the difference between <b>encryption</b>, <b>hash</b>, <b>MAC</b>, and <b>digital signature</b></li>
+            <li>Compare <b>symmetric</b> and <b>public-key</b> crypto and explain when each is used</li>
+            <li>Why is <b>ECB</b> weak, why does <b>CBC</b> need an IV, and why is <b>CTR</b> fast?</li>
+            <li>Explain the <b>AES</b> flow, key sizes, and why it replaced DES/3DES</li>
+            <li>Explain what <b>RSA</b> does and why it is slower than symmetric crypto</li>
+            <li>Explain the difference between <b>Kerberos</b>, <b>X.509</b>, and <b>PKI</b></li>
+            <li>Explain <b>SQL Injection</b> and the best ways to prevent it</li>
+            <li>Explain <b>HA</b>, <b>DR</b>, <b>RTO</b>, and <b>RPO</b> with examples</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="1-introduction">
+        <div class="lang lang-th">
+          <h2>1) INT308 Introduction</h2>
+          <ul>
+            <li>Security เป้าหมายหลักคือ <b>CIA</b>: Confidentiality, Integrity, Availability</li>
+            <li>เริ่มคิดจาก <b>Risk</b> ก่อนเลือกมาตรการป้องกัน</li>
+            <li><b>Security policy</b> คือกฎว่าใครทำอะไรได้ และต้องปฏิบัติอย่างไร</li>
+            <li>Threat หลักที่ควรจำ: malware, insider threat, DoS/DDoS, data theft, disaster</li>
+          </ul>
+          <div class="mini-grid">
+            <div class="card section" style="padding:12px;">
+              <b>C</b> = กันข้อมูลรั่ว
+            </div>
+            <div class="card section" style="padding:12px;">
+              <b>I</b> = กันข้อมูลถูกแก้
+            </div>
+            <div class="card section" style="padding:12px;">
+              <b>A</b> = ระบบพร้อมใช้
+            </div>
+          </div>
+        </div>
+        <div class="lang lang-en">
+          <h2>1) INT308 Introduction</h2>
+          <ul>
+            <li>The core security goals are the <b>CIA</b> triad: Confidentiality, Integrity, Availability</li>
+            <li>Start with <b>risk</b> before choosing controls</li>
+            <li>A <b>security policy</b> defines who can do what and how they must behave</li>
+            <li>Key threats to remember: malware, insider threat, DoS/DDoS, data theft, and disasters</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="2-cryptography">
+        <div class="lang lang-th">
+          <h2>2) Cryptography</h2>
+          <ul>
+            <li>การเข้ารหัสช่วยปกป้องข้อมูลระหว่างส่งและระหว่างเก็บ</li>
+            <li>คำสำคัญ: plaintext, ciphertext, key, encryption, decryption</li>
+            <li>รู้ความต่างระหว่าง <b>cipher</b> กับ <b>code</b></li>
+            <li>ด้านที่ออกสอบบ่อย: symmetric, brute force, cryptanalysis</li>
+            <li>ต้องจำให้ได้ว่า encryption ให้ confidentiality ส่วน hash ให้ integrity</li>
+          </ul>
+          <p class="note">ประเด็นจำง่าย: ถ้าอยากเก็บความลับ ใช้ encryption. ถ้าอยากตรวจความถูกต้อง ใช้ hash หรือ MAC.</p>
+          <details>
+            <summary>จำแบบสั้น</summary>
+            <div class="detail-body">
+              <p>Encryption = ซ่อนข้อมูล</p>
+              <p>Hash = ตรวจว่าข้อมูลเปลี่ยนไหม</p>
+              <p>MAC = ตรวจข้อมูล + เช็กคนส่ง</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>2) Cryptography</h2>
+          <ul>
+            <li>Cryptography protects data in transit and at rest</li>
+            <li>Key terms: plaintext, ciphertext, key, encryption, decryption</li>
+            <li>Know the difference between a <b>cipher</b> and a <b>code</b></li>
+            <li>Common exam topics: symmetric encryption, brute force, and cryptanalysis</li>
+            <li>Remember: encryption gives confidentiality, while hash gives integrity</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="3-block-ciphers">
+        <div class="lang lang-th">
+          <h2>3) Block Ciphers</h2>
+          <ul>
+            <li><b>Caesar</b>, <b>monoalphabetic</b>, <b>Vigenère</b>, <b>transposition</b> คือพื้นฐานที่ต้องรู้</li>
+            <li><b>One-time pad</b> ปลอดภัยเชิงทฤษฎี แต่ใช้งานจริงยาก</li>
+            <li><b>Product cipher</b> คือการผสม substitution + transposition</li>
+            <li><b>Confusion</b> และ <b>diffusion</b> คือแนวคิดสำคัญของ cipher ที่ดี</li>
+            <li>โจทย์ชอบถาม frequency analysis, key space, และข้อจำกัดของ classical ciphers</li>
+          </ul>
+        </div>
+        <div class="lang lang-en">
+          <h2>3) Block Ciphers</h2>
+          <ul>
+            <li>Know the basics: <b>Caesar</b>, <b>monoalphabetic</b>, <b>Vigenère</b>, and <b>transposition</b></li>
+            <li><b>One-time pad</b> is theoretically perfect but impractical</li>
+            <li>A <b>product cipher</b> combines substitution and transposition</li>
+            <li><b>Confusion</b> and <b>diffusion</b> are key design goals for strong ciphers</li>
+            <li>Expect questions about frequency analysis, key space, and limits of classical ciphers</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="4-aes">
+        <div class="lang lang-th">
+          <h2>4) AES</h2>
+          <ul>
+            <li>AES เป็นมาตรฐาน symmetric ที่ใช้จริงในปัจจุบัน</li>
+            <li>ทำงานกับ block ขนาด 128 บิต และใช้ key 128/192/256 บิต</li>
+            <li>รอบหลักประกอบด้วย SubBytes, ShiftRows, MixColumns, AddRoundKey</li>
+            <li>จำให้ได้ว่า AES เร็ว ปลอดภัย และใช้แพร่หลายมาก</li>
+          </ul>
+          <p class="note">ถ้าข้อสอบถามว่า symmetric cipher ที่ควรตอบในปัจจุบันคืออะไร ให้ตอบ AES เป็นหลัก</p>
+          <details>
+            <summary>โครงสร้าง AES แบบจำเร็ว</summary>
+            <div class="detail-body">
+              <p><span class="pill">SubBytes</span><span class="pill">ShiftRows</span><span class="pill">MixColumns</span><span class="pill">AddRoundKey</span></p>
+              <p>ให้คิดว่า AES คือการสลับ + กระจาย + ผสม + ใส่กุญแจในแต่ละรอบ</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>4) AES</h2>
+          <ul>
+            <li>AES is the standard symmetric cipher used today</li>
+            <li>It uses 128-bit blocks and 128/192/256-bit keys</li>
+            <li>Main round steps: SubBytes, ShiftRows, MixColumns, AddRoundKey</li>
+            <li>Remember: AES is fast, secure, and widely deployed</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="5-csc">
+        <div class="lang lang-th">
+          <h2>5) CSC / Modes of Operation</h2>
+          <ul>
+            <li>โหมดที่ชอบออก: <b>ECB</b>, <b>CBC</b>, <b>CFB</b>, <b>OFB</b>, <b>CTR</b></li>
+            <li><b>ECB</b> ไม่แนะนำ เพราะข้อมูลรูปแบบเดิมยังเห็นได้</li>
+            <li><b>CBC</b> ต้องมี IV และใช้กันแพร่หลาย</li>
+            <li><b>CTR</b> เร็ว และขนานได้ดี</li>
+            <li>จำให้ได้ว่า OFB/CTR สร้าง keystream และห้ามใช้ซ้ำ</li>
+          </ul>
+        </div>
+        <div class="lang lang-en">
+          <h2>5) CSC / Modes of Operation</h2>
+          <ul>
+            <li>Common modes: <b>ECB</b>, <b>CBC</b>, <b>CFB</b>, <b>OFB</b>, <b>CTR</b></li>
+            <li><b>ECB</b> is not recommended because patterns remain visible</li>
+            <li><b>CBC</b> requires an IV and is widely used</li>
+            <li><b>CTR</b> is fast and highly parallelizable</li>
+            <li>Remember: OFB/CTR generate a keystream and must never be reused</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="6-rsa">
+        <div class="lang lang-th">
+          <h2>6) RSA</h2>
+          <ul>
+            <li>เป็น <b>public-key cryptography</b> ใช้คู่กุญแจ public/private</li>
+            <li>เด่นเรื่อง key exchange และ digital signature</li>
+            <li>ช้ากว่า symmetric จึงมักใช้แบบ <b>hybrid</b></li>
+            <li>จำหลักการ: ความปลอดภัยมาจากความยากของการ factor จำนวนมาก</li>
+          </ul>
+          <details>
+            <summary>RSA ใช้ทำอะไร</summary>
+            <div class="detail-body">
+              <p>ใช้ส่งกุญแจหรือเซ็นชื่อดิจิทัล มากกว่าการเข้ารหัสข้อมูลจำนวนมาก</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>6) RSA</h2>
+          <ul>
+            <li>RSA is a <b>public-key cryptosystem</b> using public/private keys</li>
+            <li>It is useful for key exchange and digital signatures</li>
+            <li>It is slower than symmetric crypto, so it is often used in <b>hybrid</b> systems</li>
+            <li>Its security relies on the difficulty of factoring large numbers</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="7-key-management">
+        <div class="lang lang-th">
+          <h2>7) Key Management</h2>
+          <ul>
+            <li>ระบบเข้ารหัสจะปลอดภัยจริงเมื่อ <b>จัดการกุญแจดี</b></li>
+            <li><b>PKI</b> และ <b>X.509 certificate</b> ใช้ผูก identity กับ public key</li>
+            <li><b>CA</b> คือผู้รับรอง ส่วน <b>CRL/OCSP</b> ใช้ตรวจการเพิกถอน</li>
+            <li>หัวข้อนี้มักถามเรื่อง trust chain และ certificate validity</li>
+          </ul>
+          <details>
+            <summary>เส้นทางความเชื่อถือ</summary>
+            <div class="detail-body">
+              <p>ผู้ใช้เชื่อ certificate เพราะ CA รับรอง แล้ว browser/system ตรวจ chain และ revocation อีกชั้น</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>7) Key Management</h2>
+          <ul>
+            <li>Encryption is only as strong as the <b>key management</b> behind it</li>
+            <li><b>PKI</b> and <b>X.509 certificates</b> bind identities to public keys</li>
+            <li><b>CA</b> issues trust, while <b>CRL/OCSP</b> handle revocation checks</li>
+            <li>Expect questions about trust chains and certificate validity</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="8-authentication">
+        <div class="lang lang-th">
+          <h2>8) Authentication</h2>
+          <ul>
+            <li><b>Kerberos</b> ใช้ ticket-based authentication เหมาะกับองค์กร</li>
+            <li>ลดการส่งรหัสผ่านซ้ำ ๆ บนเครือข่าย</li>
+            <li>การยืนยันตัวตนที่ดีต้องแยกให้ได้ระหว่าง authentication, authorization, และ accounting</li>
+            <li>จำให้ได้ว่า system time สำคัญมากใน Kerberos</li>
+          </ul>
+          <p class="note">Kerberos = มี trusted server กลาง + ticket. X.509 = certificate + public key + PKI.</p>
+          <details>
+            <summary>Kerberos สรุป 3 คำ</summary>
+            <div class="detail-body">
+              <p>Ticket, timestamp, trusted server</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>8) Authentication</h2>
+          <ul>
+            <li><b>Kerberos</b> uses ticket-based authentication and fits enterprise networks</li>
+            <li>It reduces repeated password transmission</li>
+            <li>Know the difference between authentication, authorization, and accounting</li>
+            <li>System time matters a lot in Kerberos</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="9-data-center">
+        <div class="lang lang-th">
+          <h2>9) Data Center Security</h2>
+          <ul>
+            <li>Data center ต้องคิดเรื่องไฟฟ้า เครือข่าย ระบบระบายความร้อน และการเข้าถึง</li>
+            <li>หัวข้อสำคัญ: availability, resiliency, reliability, serviceability</li>
+            <li>มีแนวคิดอย่าง raised floor, NOC, hot aisle / cold aisle</li>
+            <li>จำว่า cooling และ redundancy สำคัญต่อ uptime</li>
+          </ul>
+          <details>
+            <summary>จำความต่าง 4 คำ</summary>
+            <div class="detail-body">
+              <p>Reliability = ไม่พังบ่อย</p>
+              <p>Availability = พร้อมใช้</p>
+              <p>Resiliency = ฟื้นตัวได้ดี</p>
+              <p>Serviceability = ซ่อมง่าย</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>9) Data Center Security</h2>
+          <ul>
+            <li>Data centers must consider power, network, cooling, and physical access</li>
+            <li>Key ideas: availability, resiliency, reliability, and serviceability</li>
+            <li>Topics include raised floors, NOC, and hot/cold aisle design</li>
+            <li>Cooling and redundancy are critical for uptime</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="10-database-cloud">
+        <div class="lang lang-th">
+          <h2>10) Database & Cloud Security</h2>
+          <ul>
+            <li><b>SQL Injection</b> คือภัยหลักของ database security</li>
+            <li>ป้องกันด้วย prepared statements, parameterized queries, least privilege, RBAC</li>
+            <li>Cloud ต้องเข้าใจ shared responsibility และ data protection</li>
+            <li>DR กับ HA ต่างกัน: HA ลด downtime, DR เน้นกู้คืนเมื่อเกิดเหตุใหญ่</li>
+            <li>DB encryption เป็น last line of defense แต่ไม่แทน access control</li>
+          </ul>
+          <p class="note">ถ้าจำได้แค่ 3 คำ: parameterized query, least privilege, shared responsibility</p>
+          <details>
+            <summary>SQLi ป้องกันยังไง</summary>
+            <div class="detail-body">
+              <p>อย่าต่อ string query เอง ใช้ parameterized query ทุกครั้ง และให้สิทธิ์ฐานข้อมูลเท่าที่จำเป็น</p>
+            </div>
+          </details>
+        </div>
+        <div class="lang lang-en">
+          <h2>10) Database & Cloud Security</h2>
+          <ul>
+            <li><b>SQL injection</b> is the main database security threat</li>
+            <li>Use prepared statements, parameterized queries, least privilege, and RBAC</li>
+            <li>Cloud security depends on the shared responsibility model and data protection</li>
+            <li>HA and DR are different: HA minimizes downtime, DR focuses on recovery after major incidents</li>
+            <li>Database encryption is a last line of defense, not a replacement for access control</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="card section" id="exam-tips">
+        <div class="lang lang-th">
+          <h2>Checklist ก่อนสอบ</h2>
+          <ul>
+            <li>แยก <b>encryption</b>, <b>hash</b>, <b>MAC</b>, <b>signature</b> ให้ชัด</li>
+            <li>จำความต่าง <b>symmetric</b> กับ <b>public-key</b></li>
+            <li>รู้ว่า ECB, CBC, CTR ใช้ต่างกันอย่างไร</li>
+            <li>ท่อง RTO, RPO, HA, DR ให้ได้</li>
+            <li>อ่านคำถามให้ดีว่าถาม “compare”, “why”, หรือ “how”</li>
+          </ul>
+        </div>
+        <div class="lang lang-en">
+          <h2>Last-Minute Checklist</h2>
+          <ul>
+            <li>Distinguish <b>encryption</b>, <b>hash</b>, <b>MAC</b>, and <b>signature</b></li>
+            <li>Know the difference between <b>symmetric</b> and <b>public-key</b> crypto</li>
+            <li>Understand how ECB, CBC, and CTR differ</li>
+            <li>Memorize RTO, RPO, HA, and DR</li>
+            <li>Read exam prompts carefully: “compare”, “why”, and “how” usually require different answers</li>
+          </ul>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <div class="wrap footer">
+    <div class="lang lang-th">สรุปนี้ออกแบบให้ใช้ทบทวนเร็ว ถ้าต้องการฉบับละเอียดสามารถเปิด `Exam.md` หรือ `Exam.pdf` ได้</div>
+    <div class="lang lang-en">This summary is designed for fast review. For the full version, open `Exam.md` or `Exam.pdf`.</div>
+  </div>
+
+  <script>
+    (function () {
+      const body = document.body;
+      const buttons = document.querySelectorAll('[data-lang-btn]');
+
+      function setLang(lang) {
+        body.setAttribute('data-lang', lang);
+        buttons.forEach((btn) => {
+          btn.classList.toggle('active', btn.getAttribute('data-lang-btn') === lang);
+        });
+        localStorage.setItem('exam_lang', lang);
+      }
+
+      buttons.forEach((btn) => {
+        btn.addEventListener('click', () => setLang(btn.getAttribute('data-lang-btn')));
+      });
+
+      const saved = localStorage.getItem('exam_lang');
+      if (saved === 'th' || saved === 'en') setLang(saved);
+    })();
+  </script>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+    mermaid.initialize({
+      startOnLoad: true,
+      securityLevel: 'loose',
+      theme: 'dark'
+    });
+  </script>
+</body>
+</html>
