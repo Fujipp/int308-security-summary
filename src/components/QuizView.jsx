@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { quizCategories } from '../data/quiz';
+import { calculationQuiz, quizCategories } from '../data/quiz';
 import {
   ArrowLeft,
   BookOpenCheck,
@@ -472,6 +472,38 @@ export default function QuizView({ lang }) {
                   </span>
                   <span className="px-3 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300">
                     {lang === 'th' ? 'ข้ามข้อได้' : 'Free navigation'}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.08 }}
+            onClick={() => startPracticeQuiz({ ...calculationQuiz })}
+            className="w-full text-left p-6 md:p-7 rounded-3xl border border-amber-300/20 bg-linear-to-br from-white/6 to-amber-500/8 hover:from-white/10 hover:to-amber-500/12 hover:border-amber-300/40 transition-all shadow-lg"
+          >
+            <div className="flex items-start gap-5">
+              <div className="w-16 h-16 rounded-2xl bg-amber-500/12 text-amber-300 flex items-center justify-center shrink-0 border border-amber-300/15">
+                <BrainCircuit size={30} />
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-2xl font-bold text-white mb-2">
+                  {lang === 'th' ? 'Calculation Drill' : 'Calculation Drill'}
+                </h3>
+                <p className="text-slate-300">
+                  {lang === 'th'
+                    ? 'ซ้อมโจทย์คำนวณ, XOR, Caesar, Vigenere, RSA, Diffie-Hellman และการแกะ process ของ algorithm โดยเฉพาะ'
+                    : 'Practice calculation-heavy questions, XOR, Caesar, Vigenere, RSA, Diffie-Hellman, and algorithm breakdowns.'}
+                </p>
+                <div className="flex flex-wrap gap-2 mt-4 text-xs">
+                  <span className="px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-300">
+                    {calculationQuiz.questions.length} {lang === 'th' ? 'ข้อฝึก' : 'Practice questions'}
+                  </span>
+                  <span className="px-3 py-1.5 rounded-full bg-white/8 border border-white/10 text-slate-300">
+                    {lang === 'th' ? 'แยกจากชุดสอบ 100 ข้อ' : 'Separate from the 100-question exam'}
                   </span>
                 </div>
               </div>

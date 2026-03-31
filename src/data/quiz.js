@@ -590,12 +590,13 @@ const enMap = {
 };
 
 const t = (th, en) => ({ th, en: en ?? enMap[th] ?? th });
+const normalizeText = (value) => (typeof value === 'string' ? t(value) : value);
 
 const q = (question, options, answerIndex, explanation) => ({
-  question: t(question),
-  options: options.map((opt) => t(opt)),
+  question: normalizeText(question),
+  options: options.map((opt) => normalizeText(opt)),
   answerIndex,
-  explanation: t(explanation),
+  explanation: normalizeText(explanation),
 });
 
 const rawQuizCategories = [
@@ -757,6 +758,298 @@ const rawQuizCategories = [
   },
 ];
 
+const integratedCalculationByCategory = {
+  'crypto-classical': [
+    {
+      index: 8,
+      question: q(
+        {
+          th: 'ถ้าใช้ Caesar cipher เลื่อนขวา 3 ตำแหน่ง ข้อความ plaintext = ATTACK จะถูกเข้ารหัสเป็นข้อใด',
+          en: 'If a Caesar cipher shifts letters 3 positions to the right, which ciphertext is produced from plaintext = ATTACK?',
+        },
+        [
+          { th: 'DWWDFN', en: 'DWWDFN' },
+          { th: 'BUUBDL', en: 'BUUBDL' },
+          { th: 'CWWCFM', en: 'CWWCFM' },
+          { th: 'DXXEGO', en: 'DXXEGO' },
+          { th: 'DWWBDN', en: 'DWWBDN' },
+        ],
+        0,
+        {
+          th: 'เลื่อน A→D, T→W, C→F, K→N จึงได้ DWWDFN',
+          en: 'Shift each letter by 3: A→D, T→W, C→F, and K→N, giving DWWDFN.',
+        },
+      ),
+    },
+    {
+      index: 9,
+      question: q(
+        {
+          th: 'ใช้ Vigenere cipher กับ plaintext = HELLO และ key = KEY (วนซ้ำ KEYKE) ผลลัพธ์ข้อใดถูกต้องที่สุด',
+          en: 'Using Vigenere cipher with plaintext = HELLO and key = KEY (repeated as KEYKE), which result is most accurate?',
+        },
+        [
+          { th: 'RIJVS', en: 'RIJVS' },
+          { th: 'QIJWR', en: 'QIJWR' },
+          { th: 'RIKWT', en: 'RIKWT' },
+          { th: 'JEKKO', en: 'JEKKO' },
+          { th: 'LIPPS', en: 'LIPPS' },
+        ],
+        0,
+        {
+          th: 'คำนวณแบบ Vigenere: H+K=R, E+E=I, L+Y=J, L+K=V, O+E=S จึงได้ RIJVS',
+          en: 'Using Vigenere addition: H+K=R, E+E=I, L+Y=J, L+K=V, and O+E=S, so the ciphertext is RIJVS.',
+        },
+      ),
+    },
+  ],
+  'hash-des-modes': [
+    {
+      index: 9,
+      question: q(
+        {
+          th: 'ถ้า hash มีขนาด 64 บิต ความยากของการหา collision โดยประมาณตาม birthday bound ใกล้กับข้อใดที่สุด',
+          en: 'If a hash output is 64 bits long, which value best approximates the collision difficulty under the birthday bound?',
+        },
+        ['2^16', '2^24', '2^32', '2^48', '2^64'],
+        2,
+        {
+          th: 'birthday attack มีความยากประมาณ 2^(m/2) ดังนั้นเมื่อ m = 64 จะได้ประมาณ 2^32',
+          en: 'Birthday attacks require about 2^(m/2) work. For a 64-bit hash, that is about 2^32.',
+        },
+      ),
+    },
+    {
+      index: 11,
+      question: q(
+        {
+          th: 'ใน CBC ถ้า plaintext block แรก P1 = 1010 และ IV = 1100 ก่อนเข้า block cipher จะได้ผล XOR เท่าใด',
+          en: 'In CBC mode, if the first plaintext block P1 = 1010 and IV = 1100, what is the XOR result before block encryption?',
+        },
+        ['0000', '0011', '0101', '0110', '1110'],
+        3,
+        {
+          th: 'CBC ใช้ P1 XOR IV ดังนั้น 1010 XOR 1100 = 0110',
+          en: 'CBC computes P1 XOR IV, so 1010 XOR 1100 = 0110.',
+        },
+      ),
+    },
+    {
+      index: 12,
+      question: q(
+        {
+          th: 'หาก CTR mode ใช้ key เดิมและ counter เดิมซ้ำกับสองข้อความ ผลเสี่ยงหลักเชิงคำนวณคือข้อใด',
+          en: 'If CTR mode reuses the same key and counter with two messages, what is the main computational risk?',
+        },
+        [
+          { th: 'ทำให้ block size เพิ่มขึ้น', en: 'The block size increases' },
+          { th: 'ทำให้ได้ keystream เดิม จึงนำ ciphertext มาหักลบ/XOR เพื่อวิเคราะห์ข้อความได้', en: 'It reuses the same keystream, allowing ciphertexts to be XORed for analysis' },
+          { th: 'ทำให้ decryption เป็นไปไม่ได้', en: 'Decryption becomes impossible' },
+          { th: 'ทำให้ต้องใช้ certificate', en: 'A certificate becomes required' },
+          { th: 'ทำให้ MAC ยาวขึ้น', en: 'The MAC becomes longer' },
+        ],
+        1,
+        {
+          th: 'CTR เปรียบเสมือน stream cipher ถ้า keystream ซ้ำ ผู้โจมตีสามารถใช้ความสัมพันธ์ของ ciphertext เพื่ออนุมาน plaintext ได้',
+          en: 'CTR behaves like a stream cipher. If the keystream is reused, attackers can exploit relationships between ciphertexts to infer plaintext.',
+        },
+      ),
+    },
+  ],
+  aes: [
+    {
+      index: 7,
+      question: q(
+        {
+          th: 'ใน AES ถ้าแถวที่ 2 ของ state ก่อน ShiftRows คือ [A, B, C, D] หลัง ShiftRows จะเป็นข้อใด',
+          en: 'In AES, if the second row of the state before ShiftRows is [A, B, C, D], what does it become after ShiftRows?',
+        },
+        ['[A, B, C, D]', '[B, C, D, A]', '[C, D, A, B]', '[D, A, B, C]', '[B, A, D, C]'],
+        1,
+        {
+          th: 'แถวที่ 2 ของ AES จะเลื่อนซ้าย 1 ตำแหน่ง จึงได้ [B, C, D, A]',
+          en: 'The second AES row is shifted left by 1 position, yielding [B, C, D, A].',
+        },
+      ),
+    },
+    {
+      index: 8,
+      question: q(
+        {
+          th: 'ใน AES ถ้า state byte = 10101100 และ round key byte = 11000011 ขั้น AddRoundKey จะได้ผลลัพธ์ใด',
+          en: 'In AES, if a state byte is 10101100 and the round key byte is 11000011, what is the AddRoundKey result?',
+        },
+        ['01101111', '01101001', '11101111', '11100011', '00101100'],
+        0,
+        {
+          th: 'AddRoundKey คือ XOR: 10101100 XOR 11000011 = 01101111',
+          en: 'AddRoundKey is XOR: 10101100 XOR 11000011 = 01101111.',
+        },
+      ),
+    },
+  ],
+  'public-key-rsa': [
+    {
+      index: 8,
+      question: q(
+        {
+          th: 'กำหนด p = 5 และ q = 11 สำหรับ RSA ค่า phi(n) เท่ากับข้อใด',
+          en: 'Given p = 5 and q = 11 in RSA, what is phi(n)?',
+        },
+        ['40', '44', '50', '55', '60'],
+        0,
+        {
+          th: 'phi(n) = (p−1)(q−1) = 4 × 10 = 40',
+          en: 'phi(n) = (p−1)(q−1) = 4 × 10 = 40.',
+        },
+      ),
+    },
+    {
+      index: 9,
+      question: q(
+        {
+          th: 'ถ้า RSA มี n = 33, e = 3 และ plaintext M = 4 จะได้ ciphertext C = M^e mod n เท่าใด',
+          en: 'If RSA uses n = 33, e = 3, and plaintext M = 4, what is the ciphertext C = M^e mod n?',
+        },
+        ['9', '16', '31', '31', '64'],
+        2,
+        {
+          th: '4^3 = 64 และ 64 mod 33 = 31',
+          en: '4^3 = 64, and 64 mod 33 = 31.',
+        },
+      ),
+    },
+    {
+      index: 10,
+      question: q(
+        {
+          th: 'ถ้าใน RSA กำหนด e = 7 และ phi(n) = 40 ค่า d ที่เหมาะสมที่สุดคือข้อใด',
+          en: 'If RSA uses e = 7 and phi(n) = 40, which value is the correct d?',
+        },
+        ['17', '21', '23', '27', '33'],
+        2,
+        {
+          th: 'ต้องหา d ที่ทำให้ e·d ≡ 1 mod 40 และ 7 × 23 = 161 = 1 mod 40',
+          en: 'We need d such that e·d ≡ 1 mod 40, and 7 × 23 = 161 ≡ 1 mod 40.',
+        },
+      ),
+    },
+  ],
+  'key-management': [
+    {
+      index: 8,
+      question: q(
+        {
+          th: 'ใน Diffie-Hellman ถ้า q = 23, a = 5, Alice เลือก secret = 6 และ Bob เลือก secret = 15 ค่า public ของ Alice คือข้อใด',
+          en: 'In Diffie-Hellman, if q = 23, a = 5, Alice chooses secret = 6, and Bob chooses secret = 15, what is Alice’s public value?',
+        },
+        ['2', '4', '8', '12', '15'],
+        2,
+        {
+          th: 'Alice ส่ง 5^6 mod 23 = 15625 mod 23 = 8',
+          en: 'Alice sends 5^6 mod 23 = 15625 mod 23 = 8.',
+        },
+      ),
+    },
+    {
+      index: 11,
+      question: q(
+        {
+          th: 'จากโจทย์ Diffie-Hellman เดิม เมื่อ public ของ Alice = 8 และ Bob = 19 ค่า shared secret ที่ตรงกันคือข้อใด',
+          en: 'From the same Diffie-Hellman setup, if Alice’s public value is 8 and Bob’s is 19, what is the shared secret?',
+        },
+        ['2', '4', '8', '16', '19'],
+        1,
+        {
+          th: 'Alice คำนวณ 19^6 mod 23 = 4 และ Bob คำนวณ 8^15 mod 23 = 4 จึงได้ shared secret = 4',
+          en: 'Alice computes 19^6 mod 23 = 4 and Bob computes 8^15 mod 23 = 4, so the shared secret is 4.',
+        },
+      ),
+    },
+  ],
+};
+
+const extraCalculationQuestions = [
+  q(
+    {
+      th: 'ถ้า Caesar cipher เลื่อนซ้าย 3 ตำแหน่ง ข้อความ DEF จะถอดกลับเป็นข้อใด',
+      en: 'If a Caesar cipher shifts 3 positions to the left during decryption, what does DEF decrypt to?',
+    },
+    ['ABC', 'BCD', 'CDE', 'XYZ', 'AEF'],
+    0,
+    {
+      th: 'ถอดกลับโดยเลื่อนซ้าย 3 ตำแหน่ง D→A, E→B, F→C',
+      en: 'Decrypt by shifting left 3 positions: D→A, E→B, F→C.',
+    },
+  ),
+  q(
+    {
+      th: 'ถ้า plaintext สองชุดถูก XOR ด้วย keystream เดียวกัน ข้อใดอธิบายผลที่ผู้โจมตีใช้ประโยชน์ได้ดีที่สุด',
+      en: 'If two plaintexts are XORed with the same keystream, which statement best describes what an attacker can exploit?',
+    },
+    [
+      { th: 'ciphertext ทั้งคู่ไม่มีความสัมพันธ์กัน', en: 'The two ciphertexts are unrelated' },
+      { th: 'นำ ciphertext ทั้งสองมา XOR กันแล้ว keystream จะหายไป', en: 'XORing the two ciphertexts removes the keystream' },
+      { th: 'ต้องใช้ CA ก่อนเสมอ', en: 'A CA is always required first' },
+      { th: 'ทำให้ block size เพิ่มขึ้น', en: 'It increases the block size' },
+      { th: 'ทำให้ hash collision ทันที', en: 'It immediately causes a hash collision' },
+    ],
+    1,
+    {
+      th: 'เมื่อ C1 = P1 XOR K และ C2 = P2 XOR K จะได้ C1 XOR C2 = P1 XOR P2',
+      en: 'If C1 = P1 XOR K and C2 = P2 XOR K, then C1 XOR C2 = P1 XOR P2.',
+    },
+  ),
+  q(
+    {
+      th: 'ใน Feistel round ถ้า L0 = 1010 และผลจาก F(R0, K1) = 0110 ค่า R1 คือข้อใด',
+      en: 'In a Feistel round, if L0 = 1010 and F(R0, K1) = 0110, what is R1?',
+    },
+    ['1100', '1110', '1001', '0110', '0011'],
+    0,
+    {
+      th: 'Feistel ใช้ R1 = L0 XOR F(R0, K1) ดังนั้น 1010 XOR 0110 = 1100',
+      en: 'Feistel computes R1 = L0 XOR F(R0, K1), so 1010 XOR 0110 = 1100.',
+    },
+  ),
+  q(
+    {
+      th: 'ถ้า hash ยาว 128 บิต ความยากในการหา collision โดยประมาณใกล้กับข้อใด',
+      en: 'If a hash output is 128 bits, which value best approximates collision-finding difficulty?',
+    },
+    ['2^32', '2^48', '2^64', '2^96', '2^128'],
+    2,
+    {
+      th: 'birthday bound ให้ความยากประมาณ 2^(128/2) = 2^64',
+      en: 'The birthday bound gives approximately 2^(128/2) = 2^64.',
+    },
+  ),
+  q(
+    {
+      th: 'ใน RSA ถ้า p = 3 และ q = 11 ค่า n จะเท่ากับข้อใด',
+      en: 'In RSA, if p = 3 and q = 11, what is n?',
+    },
+    ['14', '22', '33', '44', '121'],
+    2,
+    {
+      th: 'n = p × q = 3 × 11 = 33',
+      en: 'n = p × q = 3 × 11 = 33.',
+    },
+  ),
+  q(
+    {
+      th: 'ใน AES ถ้า byte ของ state = 11110000 และ round key = 00001111 ผล AddRoundKey คือข้อใด',
+      en: 'In AES, if a state byte is 11110000 and the round key is 00001111, what is the AddRoundKey result?',
+    },
+    ['11111111', '00000000', '10000001', '01111110', '11110000'],
+    0,
+    {
+      th: 'AddRoundKey คือ XOR ดังนั้น 11110000 XOR 00001111 = 11111111',
+      en: 'AddRoundKey is XOR, so 11110000 XOR 00001111 = 11111111.',
+    },
+  ),
+];
+
 const levelsByCategory = {
   'security-overview': ['M', 'M', 'M', 'M', 'M', 'M', 'A', 'A', 'M', 'A', 'A', 'A'],
   'crypto-classical': ['M', 'M', 'M', 'M', 'M', 'M', 'A', 'A', 'A', 'A', 'A', 'A'],
@@ -768,10 +1061,37 @@ const levelsByCategory = {
   'database-cloud': ['M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'M', 'A', 'A', 'A', 'A', 'A'],
 };
 
-export const quizCategories = rawQuizCategories.map((category) => ({
+const rawQuizCategoriesWithCalculations = rawQuizCategories.map((category) => {
+  const replacements = integratedCalculationByCategory[category.id] || [];
+  if (!replacements.length) return category;
+
+  const nextQuestions = [...category.questions];
+  replacements.forEach(({ index, question }) => {
+    nextQuestions[index] = question;
+  });
+
+  return {
+    ...category,
+    questions: nextQuestions,
+  };
+});
+
+export const quizCategories = rawQuizCategoriesWithCalculations.map((category) => ({
   ...category,
   questions: category.questions.map((question, index) => ({
     ...question,
     level: levelsByCategory[category.id]?.[index] || 'M',
   })),
 }));
+
+export const calculationQuiz = {
+  id: 'calculation-drill',
+  title: t('9. Calculation Drill และ Algorithm Breakdown', '9. Calculation Drill and Algorithm Breakdown'),
+  icon: 'Calculator',
+  questions: [
+    ...Object.values(integratedCalculationByCategory)
+      .flat()
+      .map((item) => ({ ...item.question, level: 'A' })),
+    ...extraCalculationQuestions.map((item) => ({ ...item, level: 'A' })),
+  ],
+};

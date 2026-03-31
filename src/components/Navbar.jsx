@@ -1,5 +1,5 @@
 import React from 'react';
-import { BookOpen, HelpCircle, Languages } from 'lucide-react';
+import { BookOpen, Calculator, HelpCircle } from 'lucide-react';
 
 export default function Navbar({ lang, setLang, view, setView }) {
   return (
@@ -38,7 +38,7 @@ export default function Navbar({ lang, setLang, view, setView }) {
         <div className="flex items-center gap-2 bg-white/4 p-1 rounded-full border border-white/8 w-full overflow-x-auto scrollbar-hide">
           <button
             onClick={() => setView('summary')}
-            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-1 min-w-[140px] ${
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-1 min-w-[132px] ${
               view === 'summary' 
                 ? 'bg-sky-500/14 text-sky-300 border border-sky-400/25 shadow-[0_0_12px_rgba(56,189,248,0.1)]' 
                 : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
@@ -48,8 +48,22 @@ export default function Navbar({ lang, setLang, view, setView }) {
             {lang === 'th' ? 'สรุปเนื้อหา' : 'Summary'}
           </button>
           <button
+            onClick={() => setView('calculation-summary')}
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-1 min-w-[170px] ${
+              view === 'calculation-summary'
+                ? 'bg-amber-500/14 text-amber-300 border border-amber-300/25 shadow-[0_0_12px_rgba(251,191,36,0.1)]'
+                : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'
+            }`}
+          >
+            <Calculator size={16} />
+            <span>{lang === 'th' ? 'สรุปคำนวณ' : 'Calc Summary'}</span>
+            <span className="rounded-full bg-amber-400/15 border border-amber-300/20 px-2 py-0.5 text-[10px] font-bold tracking-[0.12em] text-amber-300">
+              NEW
+            </span>
+          </button>
+          <button
             onClick={() => setView('quiz')}
-            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-1 min-w-[140px] ${
+            className={`flex items-center justify-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all whitespace-nowrap flex-1 min-w-[132px] ${
               view === 'quiz' 
                 ? 'bg-sky-500/14 text-sky-300 border border-sky-400/25 shadow-[0_0_12px_rgba(56,189,248,0.1)]' 
                 : 'text-slate-400 hover:text-white hover:bg-white/5 border border-transparent'

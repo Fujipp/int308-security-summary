@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import SummaryView from './components/SummaryView';
+import CalculationSummaryView from './components/CalculationSummaryView';
 import QuizView from './components/QuizView';
 import { ExternalLink } from 'lucide-react';
 
@@ -28,6 +29,7 @@ function App() {
       
       <main className="flex-1 relative z-10 w-full mb-20">
         {view === 'summary' && <SummaryView lang={lang} />}
+        {view === 'calculation-summary' && <CalculationSummaryView lang={lang} />}
         {view === 'quiz' && <QuizView lang={lang} />}
       </main>
 
